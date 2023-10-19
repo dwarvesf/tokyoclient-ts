@@ -47,21 +47,6 @@ npm i tokyoclient-ts`
 
 5. Run your program and observe the client interacting with the Tokyo game server.
 
-## Interfaces
-
-### EventConsumer
-
-`EventConsumer` is an interface that the client must implement to handle events received from the server. It defines the `handleEvent` method, which is responsible for processing events and taking appropriate actions based on the event information.
-
-Method `handleEvent` receives an object with the following properties:
-- `gamepad` - An interface provided by the library to the client. It offers methods to control the ship in the game. The `GamePad` interface includes methods to rotate the ship (`Rotate`), adjust throttle (`Throttle`), and fire bullets (`Fire`).
-- `userId` - Your current player's id
-- `teamMates` - A map of players in your team
-- `state` - The `state` event data sent from server 
-
-By using these provided properties, you can try to create an unbeatable algorithm on your own. 
-
-
 ## Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests for any improvements or bug fixes.
