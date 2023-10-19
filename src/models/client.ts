@@ -35,13 +35,11 @@ export class TokyoGameClient implements Gamepad {
 
   private executeOnOpen() {
     if (!this.onOpenFn) return;
-    console.log("opening")
     this.onOpenFn.call(this, this);
   }
 
   private executeOnMessage(event: MessageEvent) {
     if (!this.onMessageFn) return;
-    console.log("message incomming")
     const parsed: OnMessageEvent = JSON.parse(event.data);
     this.onMessageFn.call(this, {gamepad: this, event: parsed});
   }
