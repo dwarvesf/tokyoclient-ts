@@ -1,4 +1,3 @@
-import {CloseEvent, WebSocket, Event} from "ws";
 import {EventKit, OnMessageEvent} from "../interfaces/event";
 import {Gamepad} from "../interfaces/gamepad";
 import {IConfig, getWsServerUrl} from "../config";
@@ -28,20 +27,22 @@ export class TokyoGameClient implements Gamepad {
 
   constructor(credentials: IConfig) {
     this.conn = new WebSocket(getWsServerUrl(credentials));
-    this.conn.on("open", this.executeOnOpen.bind(this));
-    this.conn.on("message", this.executeOnMessage.bind(this));
-    this.conn.on("close", this.onClose.bind(this));
-    this.conn.on("error", this.onError.bind(this));
+    this.conn.addEventListener("open", this.executeOnOpen.bind(this));
+    this.conn.addEventListener("message", this.executeOnMessage.bind(this));
+    this.conn.addEventListener("close", this.onClose.bind(this));
+    this.conn.addEventListener("error", this.onError.bind(this));
   }
 
   private executeOnOpen() {
     if (!this.onOpenFn) return;
+    console.log("opening")
     this.onOpenFn.call(this, this);
   }
 
-  private executeOnMessage(event: Buffer) {
+  private executeOnMessage(event: MessageEvent) {
     if (!this.onMessageFn) return;
-    const parsed: OnMessageEvent = JSON.parse(event.toString());
+    console.log("message incomming")
+    const parsed: OnMessageEvent = JSON.parse(event.data);
     this.onMessageFn.call(this, {gamepad: this, event: parsed});
   }
 
