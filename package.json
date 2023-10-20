@@ -11,8 +11,7 @@
     "start:prod": "npm run build && node build/index.js",
     "start:dev": "npx nodemon",
     "build": "rimraf ./build && tsc",
-    "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "lint": "eslint . --ext .ts"
+    "format": "prettier --config .prettierrc 'src/**/*.ts' --write"  
   },
   "author": "",
   "license": "ISC",
@@ -32,7 +31,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
-    "ws": "^8.14.2"
+    "isomorphic-ws": "^5.0.0"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8",

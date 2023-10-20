@@ -5,9 +5,9 @@ const {
 
 (async () => {
   const config = {
-    serverHost: "localhost:8080",
-    apiKey: "webuild0",
-    userName: "h3adhunter",
+    serverHost: "combat.sege.dev",
+    apiKey: "human",
+    userName: "human",
   };
 
   // Initialize the Game client instance
