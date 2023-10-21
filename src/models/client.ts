@@ -1,4 +1,4 @@
-import {CloseEvent, WebSocket, Event} from "ws";
+import WebSocket, {CloseEvent, Event} from "isomorphic-ws";
 import {EventKit, OnMessageEvent} from "../interfaces/event";
 import {Gamepad} from "../interfaces/gamepad";
 import {IConfig, getWsServerUrl} from "../config";
