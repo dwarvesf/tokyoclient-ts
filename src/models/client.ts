@@ -1,5 +1,5 @@
 import WebSocket, {CloseEvent, Event, MessageEvent} from "isomorphic-ws";
-import {EventKit, OnMessageEvent} from "../interfaces/event";
+import {OnMessageEvent} from "../interfaces/event";
 import {Gamepad} from "../interfaces/gamepad";
 import {IConfig, getWsServerUrl} from "../config";
 
@@ -7,21 +7,21 @@ import {IConfig, getWsServerUrl} from "../config";
  * Type representing a function that handles 'OnMessage' events, typically associated with WebSocket communication.
  *
  * @type {OnMessageFn}
- * @param {EventKit} eventKit - The event kit containing a gamepad and an event object.
+ * @param {OnMessageEvent} event - The 'OnMessage' event payload.
  * @returns {any} - The result of handling the event.
  */
-export type OnMessageFn = (eventKit: EventKit) => any;
+export type OnMessageFn = (event: OnMessageEvent) => any;
 
 /**
  * Type representing a function that handles 'OnOpen' events, typically associated with WebSocket communication.
  *
  * @type {OnOpenFn}
- * @param {Gamepad} gamepad - The gamepad associated with the 'OnOpen' event.
+ * @param {Event} event - The 'OnOpen' event payload.
  * @returns {any} - The result of handling the event.
  */
-export type OnOpenFn = (gamepad: Gamepad) => any;
+export type OnOpenFn = (event: Event) => any;
 
-export class TokyoGameClient implements Gamepad {
+export class TokyoGameClient {
   private conn!: WebSocket;
   private onMessageFn: OnMessageFn | undefined;
   private onOpenFn: OnOpenFn | undefined;
@@ -29,24 +29,20 @@ export class TokyoGameClient implements Gamepad {
   constructor(credentials: IConfig) {
     this.conn = new WebSocket(getWsServerUrl(credentials));
     this.conn.onopen = this.executeOnOpen.bind(this);
-    this.conn.onmessage = this.executeOnMessage.bind(this);
     this.conn.onclose = this.executeOnClose.bind(this);
     this.conn.onerror = this.executeOnError.bind(this);
   }
 
-  private executeOnOpen() {
+  private executeOnOpen(e: Event) {
     if (!this.onOpenFn) return;
-    this.onOpenFn.call(this, this);
+    this.onOpenFn.call(this, e);
   }
 
   private executeOnMessage(event: MessageEvent) {
     if (!this.onMessageFn) return;
     if (event) {
       const parsed: OnMessageEvent = JSON.parse(event.data.toString());
-      this.onMessageFn.call(this, {
-        gamepad: this,
-        event: parsed as OnMessageEvent,
-      });
+      this.onMessageFn.call(this, parsed);
     }
   }
 
@@ -58,7 +54,7 @@ export class TokyoGameClient implements Gamepad {
     console.error("uhhh, an error happened:", event);
   }
 
-  rotate(angle: number): void {
+  private rotate(angle: number): void {
     this.conn.send(
       JSON.stringify({
         e: "rotate",
@@ -67,7 +63,7 @@ export class TokyoGameClient implements Gamepad {
     );
   }
 
-  throttle(speed: number): void {
+  private throttle(speed: number): void {
     this.conn.send(
       JSON.stringify({
         e: "throttle",
@@ -76,12 +72,25 @@ export class TokyoGameClient implements Gamepad {
     );
   }
 
-  fire(): void {
+  private fire(): void {
     this.conn.send(
       JSON.stringify({
         e: "fire",
       }),
     );
+  }
+
+  /**
+   * Returns a gamepad for controlling the game.
+   *
+   * @returns {Gamepad}
+   */
+  GamePad(): Gamepad {
+    return {
+      rotate: this.rotate.bind(this),
+      throttle: this.throttle.bind(this),
+      fire: this.fire.bind(this),
+    } as Gamepad;
   }
 
   /**
@@ -92,6 +101,7 @@ export class TokyoGameClient implements Gamepad {
    */
   setOnMessageFn(fn: OnMessageFn): void {
     this.onMessageFn = fn;
+    this.conn.onmessage = this.executeOnMessage.bind(this);
   }
 
   /**
