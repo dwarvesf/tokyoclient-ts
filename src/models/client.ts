@@ -1,4 +1,4 @@
-import WebSocket, {CloseEvent, Event} from "isomorphic-ws";
+import WebSocket, {CloseEvent, Event, MessageEvent} from "isomorphic-ws";
 import {EventKit, OnMessageEvent} from "../interfaces/event";
 import {Gamepad} from "../interfaces/gamepad";
 import {IConfig, getWsServerUrl} from "../config";
@@ -28,10 +28,10 @@ export class TokyoGameClient implements Gamepad {
 
   constructor(credentials: IConfig) {
     this.conn = new WebSocket(getWsServerUrl(credentials));
-    this.conn.on("open", this.executeOnOpen.bind(this));
-    this.conn.on("message", this.executeOnMessage.bind(this));
-    this.conn.on("close", this.onClose.bind(this));
-    this.conn.on("error", this.onError.bind(this));
+    this.conn.onopen = this.executeOnOpen.bind(this);
+    this.conn.onmessage = this.executeOnMessage.bind(this);
+    this.conn.onclose = this.executeOnClose.bind(this);
+    this.conn.onerror = this.executeOnError.bind(this);
   }
 
   private executeOnOpen() {
@@ -39,17 +39,19 @@ export class TokyoGameClient implements Gamepad {
     this.onOpenFn.call(this, this);
   }
 
-  private executeOnMessage(event: Buffer) {
+  private executeOnMessage(event: MessageEvent) {
     if (!this.onMessageFn) return;
-    const parsed: OnMessageEvent = JSON.parse(event.toString());
-    this.onMessageFn.call(this, {gamepad: this, event: parsed});
+    if (event) {
+      const parsed: OnMessageEvent = JSON.parse(event.data.toString());
+      this.onMessageFn.call(this, {gamepad: this, event: parsed as OnMessageEvent});
+    }
   }
 
-  private onClose(_event: CloseEvent) {
+  private executeOnClose(_event: CloseEvent) {
     console.log("Disconnected.");
   }
 
-  private onError(event: Event) {
+  private executeOnError(event: Event) {
     console.error("uhhh, an error happened:", event);
   }
 
