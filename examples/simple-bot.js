@@ -4,14 +4,13 @@ const {
 } = require("../build");
 
 (async () => {
-  const config = {
+  // Initialize the Game client instance
+  const client = new TokyoGameClient({
     serverHost: "combat.sege.dev",
     apiKey: "human",
     userName: "human",
-  };
-
-  // Initialize the Game client instance
-  const client = new TokyoGameClient(config);
+    useHttps: true,
+  });
 
   // Define your onMessage callback function
   client.setOnOpenFn((gamepad) => {
