@@ -255,24 +255,3 @@ export interface OnMessageEvent {
    */
   data: StateEventData | Record<string, string> | number;
 }
-
-/**
- * Represents an event kit that includes a gamepad and an event object.
- *
- * @interface
- */
-export interface EventKit {
-  /**
-   * The gamepad allows you to control the ship.
-   *
-   * @type {Gamepad}
-   */
-  gamepad: Gamepad;
-
-  /**
-   * The event object sent from server through onMessage listener`.
-   *
-   * @type {OnMessageEvent}
-   */
-  event: OnMessageEvent;
-}

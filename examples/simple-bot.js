@@ -12,20 +12,21 @@ const {
     useHttps: true,
   });
 
+  // Get your own gamepad
+  const gamepad = client.GamePad();
+
   // Define your onMessage callback function
-  client.setOnOpenFn((gamepad) => {
+  client.setOnOpenFn((e) => {
     console.log("Successfully joined the game.");
-    // Replace your logic here
   });
 
   // Define your onMessage callback function
-  client.setOnMessageFn(({gamepad, event}) => {
+  client.setOnMessageFn((e) => {
     gamepad.throttle(1);
     const angle = getRandomFloat(0.1, 1.0, 1) * 2 * Math.PI;
     gamepad.rotate(angle);
     console.log(`[rotating] by ${angle} .`);
     gamepad.fire();
-    // Replace with your logic here
   });
 
   process.on("SIGTERM", () => {
