@@ -71,7 +71,6 @@ export interface Player {
   bullet_limit: number;
 }
 
-
 /**
  * Represents an item in the game.
  *
@@ -113,7 +112,6 @@ export interface Item {
    */
   type: ItemType;
 }
-
 
 /**
  * Represents a bullet in the game.
@@ -157,7 +155,6 @@ export interface Bullet {
   y: number;
 }
 
-
 /**
  * Represents respawn information.
  *
@@ -178,7 +175,6 @@ export interface RespawnInfo {
    */
   nanos_since_epoch: number;
 }
-
 
 export interface DeadPlayer {
   respawn: RespawnInfo;

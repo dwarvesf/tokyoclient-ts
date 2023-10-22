@@ -2,12 +2,14 @@ export interface IConfig {
   serverHost: string;
   apiKey: string;
   userName: string;
+  useHttps: boolean;
 }
 
 export const getWsServerUrl = (c: IConfig): string => {
+  const protocol = c.useHttps ? "wss://" : "ws://";
   const socketPath = "/socket";
   return (
-    "ws://" +
+    protocol +
     c.serverHost +
     socketPath +
     "?key=" +
