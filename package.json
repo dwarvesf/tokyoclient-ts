@@ -1,6 +1,6 @@
 {
   "name": "tokyoclient-ts",
-  "version": "1.0.10",
+  "version": "1.1.0",
   "description": "A Typescript client library for connecting to a Tokyo game server and controlling a ship in the game.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
