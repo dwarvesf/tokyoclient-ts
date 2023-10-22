@@ -58,7 +58,7 @@ export class TokyoGameClient implements Gamepad {
     console.error("uhhh, an error happened:", event);
   }
 
-  async rotate(angle: number) {
+  rotate(angle: number): void {
     this.conn.send(
       JSON.stringify({
         e: "rotate",
@@ -67,7 +67,7 @@ export class TokyoGameClient implements Gamepad {
     );
   }
 
-  async throttle(speed: number) {
+  throttle(speed: number): void {
     this.conn.send(
       JSON.stringify({
         e: "throttle",
@@ -76,7 +76,7 @@ export class TokyoGameClient implements Gamepad {
     );
   }
 
-  async fire() {
+  fire(): void {
     this.conn.send(
       JSON.stringify({
         e: "fire",
