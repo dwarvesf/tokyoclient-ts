@@ -1,33 +1,25 @@
-const {
-  TokyoGameClient,
-  getRandomFloat,
-} = require("../build");
+const {TokyoGameClient, getRandomFloat} = require("../build");
 
 (async () => {
   // Initialize the Game client instance
   const client = new TokyoGameClient({
     serverHost: "combat.sege.dev",
-    apiKey: "human",
-    userName: "human",
-    useHttps: true,
+    apiKey: "std0101",
+    userName: "std0101",
+    useSecureConnection: true,
   });
 
   // Get your own gamepad
   const gamepad = client.GamePad();
 
-  // Define your onMessage callback function
-  client.setOnOpenFn((e) => {
-    console.log("Successfully joined the game.");
-  });
-
-  // Define your onMessage callback function
-  client.setOnMessageFn((e) => {
-    gamepad.throttle(1);
+  // Define your own algorithm here to
+  client.setGamePlan((state) => {
+    console.log("Current map state: ", state);
+    gamepad.throttle(0.2);
     const angle = getRandomFloat(0.1, 1.0, 1) * 2 * Math.PI;
     gamepad.rotate(angle);
-    console.log(`[rotating] by ${angle} .`);
     gamepad.fire();
-  });
+  }, 1000);
 
   process.on("SIGTERM", () => {
     client.close();

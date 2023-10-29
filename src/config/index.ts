@@ -26,15 +26,15 @@ export interface IConfig {
   userName: string;
 
   /**
-   * Indicates whether HTTPS should be used for communication.
+   * Indicates whether a secure WebSocket connection should be established.
    *
    * @type {boolean}
    */
-  useHttps: boolean;
+  useSecureConnection: boolean;
 }
 
 export const getWsServerUrl = (c: IConfig): string => {
-  const protocol = c.useHttps ? "wss://" : "ws://";
+  const protocol = c.useSecureConnection ? "wss://" : "ws://";
   const socketPath = "/socket";
   return (
     protocol +

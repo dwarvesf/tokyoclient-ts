@@ -1,6 +1,6 @@
 {
   "name": "tokyoclient-ts",
-  "version": "1.0.10",
+  "version": "1.1.1",
   "description": "A Typescript client library for connecting to a Tokyo game server and controlling a ship in the game.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -11,7 +11,8 @@
     "start:prod": "npm run build && node build/index.js",
     "start:dev": "npx nodemon",
     "build": "rimraf ./build && tsc",
-    "format": "prettier --config .prettierrc 'src/**/*.ts' --write"
+    "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "start:example": "npm run build && node examples/simple-bot.js"
   },
   "author": "",
   "license": "ISC",
@@ -39,7 +40,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run prettier-format"
+      "pre-commit": "npm run format"
     }
   }
 }
