@@ -1,7 +1,7 @@
 import WebSocket, {CloseEvent, Event, MessageEvent} from "isomorphic-ws";
 import {OnMessageEvent, StateEventData} from "../interfaces/event";
-import {Gamepad} from "../interfaces/gamepad";
-import {IConfig, getWsServerUrl} from "../config";
+import {Controller} from "../interfaces/controller";
+import {Config, getWsServerUrl} from "../config";
 import {GameState} from "../enums";
 
 /**
@@ -28,7 +28,7 @@ export class TokyoGameClient {
   private gameState!: StateEventData;
   private planIntervalKey!: NodeJS.Timeout;
 
-  constructor(credentials: IConfig) {
+  constructor(credentials: Config) {
     this.conn = new WebSocket(getWsServerUrl(credentials));
     this.conn.onopen = this.executeOnOpen.bind(this);
     this.conn.onclose = this.executeOnClose.bind(this);
@@ -92,16 +92,16 @@ export class TokyoGameClient {
   }
 
   /**
-   * Returns a gamepad for controlling the game.
+   * Returns a controller for controlling the game.
    *
-   * @returns {Gamepad}
+   * @returns {Controller}
    */
-  public GamePad(): Gamepad {
+  public Controller(): Controller {
     return {
       rotate: this.rotate.bind(this),
       throttle: this.throttle.bind(this),
       fire: this.fire.bind(this),
-    } as Gamepad;
+    } as Controller;
   }
 
   /**
@@ -124,16 +124,13 @@ export class TokyoGameClient {
   }
 
   /**
- * Sets up a game plan by executing the provided function at regular intervals.
- *
- * @param {GamePlanFn} fn - The function to be executed at each interval.
- * @param {number} ms - The time interval in milliseconds at which the function will be executed.
- * @returns {void}
- */
-  public setGamePlan(
-    fn: GamePlanFn,
-    ms: number,
-  ): void {
+   * Sets up a game plan by executing the provided function at regular intervals.
+   *
+   * @param {GamePlanFn} fn - The function to be executed at each interval.
+   * @param {number} ms - The time interval in milliseconds at which the function will be executed.
+   * @returns {void}
+   */
+  public setGamePlan(fn: GamePlanFn, ms: number): void {
     this.planIntervalKey = setInterval(() => {
       if (!this.isConnected()) {
         return;
