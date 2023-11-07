@@ -1,5 +1,4 @@
 import {EventType, ItemType} from "../enums";
-import {Gamepad} from "./gamepad";
 
 /**
  * Represents a player in the game.

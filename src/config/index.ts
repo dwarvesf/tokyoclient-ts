@@ -3,7 +3,7 @@
  *
  * @interface
  */
-export interface IConfig {
+export interface Config {
   /**
    * The host or URL of the server to connect to.
    *
@@ -33,7 +33,7 @@ export interface IConfig {
   useSecureConnection: boolean;
 }
 
-export const getWsServerUrl = (c: IConfig): string => {
+export const getWsServerUrl = (c: Config): string => {
   const protocol = c.useSecureConnection ? "wss://" : "ws://";
   const socketPath = "/socket";
   return (

@@ -1,7 +1,7 @@
 const {TokyoGameClient, getRandomFloat} = require("../build");
 
 (async () => {
-  // Initialize the Game client instance
+  // Initialize the Game client instance with your credential
   const client = new TokyoGameClient({
     serverHost: "combat.sege.dev",
     apiKey: "std0101",
@@ -9,16 +9,16 @@ const {TokyoGameClient, getRandomFloat} = require("../build");
     useSecureConnection: true,
   });
 
-  // Get your own gamepad
-  const gamepad = client.GamePad();
+  // Get your own controller
+  const controller = client.Controller();
 
   // Define your own algorithm here to
   client.setGamePlan((state) => {
     console.log("Current map state: ", state);
-    gamepad.throttle(0.2);
+    controller.throttle(0.2);
     const angle = getRandomFloat(0.1, 1.0, 1) * 2 * Math.PI;
-    gamepad.rotate(angle);
-    gamepad.fire();
+    controller.rotate(angle);
+    controller.fire();
   }, 1000);
 
   process.on("SIGTERM", () => {

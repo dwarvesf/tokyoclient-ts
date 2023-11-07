@@ -3,7 +3,7 @@
 `tokyoclient-ts` is a Typescript client library for connecting to a Tokyo game server and controlling a ship in the game. It provides functionality to interact with the game server, receive events, and control the ship using a simple bot implementation.
 
 ## Methods
-`GamePad()`: Returns a gamepad for controlling the game with actions (rotate, throttle, fire).
+`Controller()`: Returns a controller for controlling the game with actions (rotate, throttle, fire).
 
 `setGamePlan(callback, perMs)`: Sets up a game plan by executing the provided function at regular intervals.
 
@@ -37,8 +37,8 @@ npm i tokyoclient-ts`
   // Initialize the Game client instance
   const client = new TokyoGameClient(config);
   
-  // Get your own gamepad
-  const gamepad = client.GamePad();
+  // Get your own controller
+  const controller = client.Controller();
 ```
 
 3. Implement your own algorithm to respond to how things happen in the map (provided in `state` object below)
@@ -46,10 +46,10 @@ npm i tokyoclient-ts`
   client.setGamePlan((state) => {
     // can use provided utility functions here
     console.log("Current map state: ", state);
-    gamepad.throttle(0.2);
+    controller.throttle(0.2);
     const angle = getRandomFloat(0.1, 1.0, 1) * 2 * Math.PI;
-    gamepad.rotate(angle);
-    gamepad.fire();
+    controller.rotate(angle);
+    controller.fire();
   }, 1000);
 ```
 
