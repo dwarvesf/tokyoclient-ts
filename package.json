@@ -2,11 +2,20 @@
   "name": "tokyoclient-ts",
   "version": "1.1.3",
   "description": "A Typescript client library for connecting to a Tokyo game server and controlling a ship in the game.",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dwarvesf/ts-tokyoclient.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dwarvesf/ts-tokyoclient/issues"
+  },
+  "author": "Hao Ngo <haoxray@gmail.com>",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "files": [
     "/build"
   ],
+  "license": "MIT",
   "scripts": {
     "start:prod": "npm run build && node build/index.js",
     "start:dev": "npx nodemon",
@@ -14,8 +23,6 @@
     "format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "start:example": "npm run build && node examples/simple-bot.js"
   },
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.8.6",
     "@types/ws": "^8.5.7",
